@@ -1,8 +1,8 @@
 package net.engineeringdigest.journalApp.controller;
 
+import lombok.extern.slf4j.Slf4j;
+import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.service.UserService;
-import org.apache.catalina.User;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Slf4j
 @RequestMapping("/user")
 public class UserController {
 
@@ -33,6 +34,7 @@ public class UserController {
 
     @PostMapping("/post")
     public boolean createUser(@RequestBody User user){
+        log.info("{}",user);
         userService.saveEntry(user);
         return true;
     }
@@ -59,9 +61,9 @@ public class UserController {
 //        return userInDb;
 //    }
 
-    @PutMapping("/put")
-    public ResponseEntity<?> updateUser(@RequestBody User user){
-        User userInDB=userService.findByUserName(user.getUsername());
+    @PutMapping("/put/{userName}")
+    public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable String userName){
+        User userInDB=userService.findByUserName(userName);
         if (userInDB != null){
             userInDB.setUsername(userInDB.getUsername());
             userInDB.setPassword(userInDB.getPassword());

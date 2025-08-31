@@ -24,7 +24,7 @@ public class JournalEntryService {
         private UserService userService;
 
 
-        @Transactional
+//        @Transactional
         public void saveEntry(JournalEntry journalEntry, String userName){
             User user = userService.findByUserName(userName);
             journalEntry.setDate(LocalDateTime.now());
@@ -52,11 +52,5 @@ public class JournalEntryService {
             journalEntryRepo.deleteById(id);
 
         }
-
-
-
-
-
-
 
 }
